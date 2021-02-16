@@ -1,0 +1,29 @@
+{
+  "name": "test-easylex",
+  "version": "1.0.0",
+  "description": "Aplicación la cual le permitirá a Easylex la evaluación de mis aptitudes en back-end",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dazega/test-easylex.git"
+  },
+  "author": "dazega",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dazega/test-easylex/issues"
+  },
+  "homepage": "https://github.com/dazega/test-easylex#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/node": "^7.12.16",
+    "@babel/preset-env": "^7.12.16",
+    "nodemon": "^2.0.7"
+  }
+}
