@@ -4,7 +4,8 @@
   "description": "Aplicación la cual le permitirá a Easylex la evaluación de mis aptitudes en back-end",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --exec babel-node app.js"
   },
   "repository": {
     "type": "git",
