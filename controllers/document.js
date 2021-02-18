@@ -39,7 +39,8 @@ export const updateDocument = async (req, res) => {
   } = req.body;
 
   const {
-    id: userId
+    id: userId,
+    username: ownerName
   } = req.decoded;
 
   documentId = parseInt(documentId);
@@ -60,13 +61,14 @@ export const updateDocument = async (req, res) => {
     category: document.category,
     content: document.content,
     documentId: document.id,
-    name: document.name  
+    name: document.name,
+    ownerName
   });
   
   await document.update({
     content,
     name,
-    category
+    category,
   });
 
   return res.status(200).json({ document });
