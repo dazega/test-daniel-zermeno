@@ -8,7 +8,8 @@ export const createDocument = async (req, res) => {
   } = req.body;
 
   const {
-    id: userId
+    id: userId,
+    username: ownerName
   } = req.decoded;
 
   if(name === '' || category === '' || content === ''){
@@ -19,7 +20,8 @@ export const createDocument = async (req, res) => {
     name,
     category,
     content,
-    userId
+    userId,
+    ownerName
   });
 
   return res.status(200).json({ document }); 
