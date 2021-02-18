@@ -18,7 +18,11 @@ module.exports = (sequelize, DataTypes) => {
       Document.hasMany(models.RecordHistory, {
         as: 'recordHistories',
         foreignKey: 'documentId'
-      })
+      });
+      Document.hasMany(models.SharedDocument,{
+        as: 'sharedDocuments',
+        foreignKey: 'documentId'
+      });
     }
   };
   Document.init({

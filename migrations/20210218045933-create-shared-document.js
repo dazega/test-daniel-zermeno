@@ -1,28 +1,18 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('RecordHistories', {
+    await queryInterface.createTable('SharedDocuments', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      category: {
-        type: Sequelize.ENUM('ECONOMICS', 'POLITICS', 'SOCIAL')
-      },
-      content: {
-        type: Sequelize.STRING
-      },
       documentId: {
-        allowNull: false,
         type: Sequelize.INTEGER
       },
-      name: {
-        type: Sequelize.STRING
-      },
-      ownerName : {
-        type: Sequelize.STRING
+      userId: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -35,6 +25,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('RecordHistories');
+    await queryInterface.dropTable('SharedDocuments');
   }
 };

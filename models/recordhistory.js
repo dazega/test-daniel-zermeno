@@ -21,7 +21,8 @@ module.exports = (sequelize, DataTypes) => {
     category: DataTypes.ENUM('ECONOMICS', 'POLITICS', 'SOCIAL'),
     content: DataTypes.STRING,
     documentId: DataTypes.INTEGER,
-    name: DataTypes.STRING
+    name: DataTypes.STRING,
+    ownerName: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'RecordHistory',
