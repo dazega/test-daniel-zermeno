@@ -118,10 +118,20 @@ export const shareDocumentWith = async (req, res) => {
       });
 
       if(user){
-        await SharedDocument.create({
-          userId: user.id,
-          documentId: document.id
+        const sharedDocument = await SharedDocument.findOne({
+          where: {
+            userId: user.id,
+            documentId: document.id
+          }
         });
+
+        if(!sharedDocument)
+          await SharedDocument.create({
+            userId: user.id,
+            documentId: document.id
+          });
+        else
+          emailError.push(email);
       } else {
         emailError.push(email);
       }
@@ -134,10 +144,8 @@ export const shareDocumentWith = async (req, res) => {
 
   if(emailError.length === 0)
     return res.status(200).json({ message: 'Documento compartido correctamente' });
-  else if (emailError.length === emails.length)
-    return res.status(200).json({ message: 'Error al compartir el documento, no fueron encontrados los usuarios' });
   else
-    return res.status(200).json({ message: 'Documento compartido correctamente aunque no se encontraron todos los usuarios', emailError });
+    return res.status(200).json({ message: 'Fail while sharing the document with some users (It could be they does not exist or you have already share the document with them)', emailError });
 }
 
 export const getDocuments = async (req, res) => {
