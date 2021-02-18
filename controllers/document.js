@@ -181,7 +181,6 @@ export const getDocument = async (req, res) => {
     attributes: ['url', 'id', 'name', 'category', 'content', 'ownerName', 'userId']  
   });
 
-  console.log(document);
   if(!document) return res.status(404).json({ message: 'Document not found' });
 
   if (document.userId === userId) return res.status(200).json({ document });
