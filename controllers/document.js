@@ -139,3 +139,27 @@ export const sharedDocument = async (req, res) => {
   else
     return res.status(200).json({ message: 'Documento compartido correctamente aunque no se encontraron todos los usuarios', emailError });
 }
+
+export const getDocuments = async (req, res) => {
+  const {
+    id: userId
+  } = req.decoded;
+
+  const ownDocuments = await Document.findAll({
+    where: { userId },
+    attributes: ['url', 'id', 'name', 'category', 'content', 'ownerName']
+  });
+
+  const sharedDocumentsArray = await SharedDocument.findAll({
+    where: { userId },
+    include: [{
+      model: Document,
+      required: true,
+      as: 'document'
+    }],
+  });
+
+  const sharedDocuments = sharedDocumentsArray.map((document) => document.document);
+
+  return res.status(200).json({ documents: [...ownDocuments, ...sharedDocuments] });
+}
