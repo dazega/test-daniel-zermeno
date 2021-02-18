@@ -79,7 +79,7 @@ export const updateDocument = async (req, res) => {
   return res.status(200).json({ document });
 }
 
-export const sharedDocument = async (req, res) => {
+export const shareDocumentWith = async (req, res) => {
   let {
     documentId
   } = req.params;
@@ -162,4 +162,39 @@ export const getDocuments = async (req, res) => {
   const sharedDocuments = sharedDocumentsArray.map((document) => document.document);
 
   return res.status(200).json({ documents: [...ownDocuments, ...sharedDocuments] });
+}
+
+export const getDocument = async (req, res) => {
+  let {
+    documentId
+  } = req.params;
+
+  const {
+    id: userId
+  } = req.decoded;
+
+  documentId = parseInt(documentId);
+  if (isNaN(documentId)) return res.status(400).json({ message: 'wrong parameters' });
+
+  const document = await Document.findOne({
+    where: { id: documentId },
+    attributes: ['url', 'id', 'name', 'category', 'content', 'ownerName', 'userId']  
+  });
+
+  console.log(document);
+  if(!document) return res.status(404).json({ message: 'Document not found' });
+
+  if (document.userId === userId) return res.status(200).json({ document });
+  else {
+    const sharedDocument = await SharedDocument.findOne({
+      where: {
+        userId,
+        documentId
+      }
+    });
+
+    if(sharedDocument) return res.status(200).json({ document });
+    else return res.status(403).json({ message: 'You are not allow to see the document' });
+
+  }
 }
