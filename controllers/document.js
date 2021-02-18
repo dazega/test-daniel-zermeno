@@ -205,3 +205,28 @@ export const getDocument = async (req, res) => {
 
   }
 }
+
+export const getDocumentHistory = async (req, res) => {
+  let {
+    documentId
+  } = req.params;
+
+  const {
+    id: userId
+  } = req.decoded;
+
+  documentId = parseInt(documentId);
+  if (isNaN(documentId)) return res.status(400).json({ message: 'wrong parameters' });
+
+  const document = await Document.findOne({
+    where: { id: documentId }
+  });
+
+  if(!document) return res.status(404).json({ message: 'Document not found' });
+
+  const recordHistory = await RecordHistory.findAll({
+    where: {documentId}
+  });
+
+  return res.status(200).json({ documentHistory : [document,...recordHistory] });
+}
