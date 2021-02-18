@@ -20,7 +20,10 @@ module.exports = (sequelize, DataTypes) => {
   Document.init({
     name: DataTypes.STRING,
     userId: DataTypes.INTEGER,
-    url: DataTypes.STRING,
+    url: {
+      type: DataTypes.STRING,
+      defaultValue: `documents/${new Date().getTime()}`
+    },
     category: DataTypes.ENUM('ECONOMICS', 'POLITICS', 'SOCIAL'),
     content: DataTypes.STRING
   }, {
