@@ -24,6 +24,9 @@ module.exports = {
       content: {
         type: Sequelize.STRING
       },
+      ownerName : {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

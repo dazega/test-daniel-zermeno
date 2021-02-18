@@ -29,7 +29,8 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: `documents/${new Date().getTime()}`
     },
     category: DataTypes.ENUM('ECONOMICS', 'POLITICS', 'SOCIAL'),
-    content: DataTypes.STRING
+    content: DataTypes.STRING,
+    ownerName: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Document',
