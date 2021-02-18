@@ -1,4 +1,9 @@
-import { Document, RecordHistory } from "../models";
+import {
+  Document,
+  RecordHistory,
+  User,
+  SharedDocument
+} from "../models";
 
 export const createDocument = async (req, res) => {
   const {
@@ -72,4 +77,65 @@ export const updateDocument = async (req, res) => {
   });
 
   return res.status(200).json({ document });
+}
+
+export const sharedDocument = async (req, res) => {
+  let {
+    documentId
+  } = req.params;
+
+  const {
+    emails
+  } = req.body;
+
+  const {
+    id: userId,
+    email: userEmail
+  } = req.decoded;
+
+  documentId = parseInt(documentId);
+
+  if (isNaN(documentId) || !Array.isArray(emails)) return res.status(400).json({ message: 'wrong parameters' });
+
+  const document = await Document.findOne({
+    where: {
+      id: documentId
+    },
+    attributes: ['id', 'userId']
+  });
+
+  if(!document) return res.status(404).json({ message: 'Document not found' });
+
+  if(document.userId !== userId) return res.status(403).json({ message: 'You are not the owner of the document' });
+
+  const emailError = [];
+
+  const promises = emails.map(async (email)=>{
+    if(email !== userEmail){
+      const user = await User.findOne({
+        where: { email },
+        attributes: ['id']
+      });
+
+      if(user){
+        await SharedDocument.create({
+          userId: user.id,
+          documentId: document.id
+        });
+      } else {
+        emailError.push(email);
+      }
+    } else {
+      emailError.push(email);
+    }
+  });
+  
+  await Promise.all(promises);
+
+  if(emailError.length === 0)
+    return res.status(200).json({ message: 'Documento compartido correctamente' });
+  else if (emailError.length === emails.length)
+    return res.status(200).json({ message: 'Error al compartir el documento, no fueron encontrados los usuarios' });
+  else
+    return res.status(200).json({ message: 'Documento compartido correctamente aunque no se encontraron todos los usuarios', emailError });
 }
