@@ -10,9 +10,9 @@ export const login = async (req, res) => {
     }
   });
 
-  if(!user) res.status(404).json({message: "Email not found"});
+  if(!user) return res.status(404).json({message: "Email not found"});
 
-  if(user.password !== password) res.status(404).json({message: "Wrong answer"});
+  if(user.password !== password) return res.status(404).json({message: "Wrong answer"});
 
   const payload = {
     id: user.id,
@@ -24,6 +24,6 @@ export const login = async (req, res) => {
     expiresIn: '5h'
   });
 
-  res.json({token});
+  return res.json({token});
 };
 
