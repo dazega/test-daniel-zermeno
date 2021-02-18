@@ -19,7 +19,7 @@ After you have created the database you need to run the following commands to cr
 sequelize db:migrate
 sequelize db:seed:all
 ```
-**Note:**If you want to execute the commands above you need to install globaly sequelize to do that run the following
+**Note**If you want to execute the commands above you need to install globaly sequelize to do that run the following
 ```bash
 npm i -g sequelize-cli
 ```
